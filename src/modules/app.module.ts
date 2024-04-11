@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RolModule } from './rol/rol.module';
+import { ChatWsModule } from './chat-ws/chat-ws.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RolModule } from './rol/rol.module';
     UserModule,
     AuthModule,
     RolModule,
+    ChatWsModule
   ],
   controllers: [AppController],
   providers: [AppService],
