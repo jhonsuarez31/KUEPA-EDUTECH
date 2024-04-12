@@ -5,11 +5,13 @@ import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/models/user/user.entity';
+import { Conversacion } from 'src/models/class/conversation.entity';
+import { Message } from 'src/models/class/mesagge.entity';
 
 
 @Module({
   imports:[AuthModule,
-  TypeOrmModule.forFeature([User])
+  TypeOrmModule.forFeature([User, Message, Conversacion])
   ],
   providers: [ChatWsGateway, ChatWsService]
 })

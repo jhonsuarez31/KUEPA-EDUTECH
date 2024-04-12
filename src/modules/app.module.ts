@@ -7,27 +7,24 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RolModule } from './rol/rol.module';
 import { ChatWsModule } from './chat-ws/chat-ws.module';
+import { EnviromentConfigModule } from './enviroment-config/enviroment-config.module';
+import { DbModule } from './type-orm/db.module';
+import { ConversationModule } from './conversation/conversation.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'sadex_admin',
-      password: 'test123456',
-      database: 'kuepa_db',
-      autoLoadEntities: true,
-      synchronize: true,
-    }),
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local', '.env.production'],
       isGlobal: true,
     }),
     UserModule,
+    DbModule,
     AuthModule,
     RolModule,
-    ChatWsModule
+    ChatWsModule,
+    TypeOrmModule,
+    EnviromentConfigModule,
+    ConversationModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,13 +6,14 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt-strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EnviromentConfigModule } from '../enviroment-config/enviroment-config.module';
+import { EnviromentConfigService } from 'src/services/enviroment-config/enviroment-config.service';
 
 const getJwt = (
     config
 ) => {
     return {
-        secret: 'tokenSecreto',
-       // secret: config.getJWToken(),
+        secret: config.getJWToken(),
         signOptions: {
           expiresIn:'2h',
         }
@@ -21,13 +22,13 @@ const getJwt = (
 @Module({
     imports:[
         UserModule,
-        //EnviromentConfigModule,
+        EnviromentConfigModule,
         PassportModule.register({
             defaultStrategy:'jwt'
         }),
         JwtModule.registerAsync({
-            //imports: [ EnviromentConfigModule ],
-            //inject: [ EnviromentConfigService ],
+            imports: [ EnviromentConfigModule ],
+            inject: [ EnviromentConfigService ],
             useFactory: getJwt
         })
     

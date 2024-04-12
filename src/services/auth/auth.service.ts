@@ -33,7 +33,8 @@ export class AuthService {
             token: this.getJwtToken({
                 id: user.id,
                 email: user.email,
-                name: user.email,
+                name: user.firstName,
+                rol: user.firstName
             })
         }
     }

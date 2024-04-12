@@ -3,4 +3,5 @@ export interface IPaylodJwt{
     name?: string,
     state?: string,
     email?: string,
+    rol?: string
 }

@@ -5,18 +5,17 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/services/user/user.service';
 import { IPaylodJwt } from 'src/interface/auth/paylod-jwt-token.interface';
+import { EnviromentConfigService } from 'src/services/enviroment-config/enviroment-config.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(
         private readonly userService: UserService,
-       // private readonly configService: EnviromentConfigService,
+        private readonly configService: EnviromentConfigService,
     ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: 'tokenSecreto'
-            //secretOrKey: configService.getJWToken()
+            secretOrKey: configService.getJWToken()
         })
     }
 

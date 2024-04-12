@@ -26,40 +26,29 @@ export class ChatWsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return;
     }
 
-    // console.log({ payload })    
-    // console.log('Cliente conectado:', client.id );
+     console.log({ payload })    
+     console.log('Cliente conectado:', client.id );
     
 
     this.wss.emit('clients-updated', this.messagesWsService.getConnectedClients() );
   }
 
   handleDisconnect( client: Socket ) {
-    // console.log('Cliente desconectado', client.id )
     this.messagesWsService.removeClient( client.id );
 
     this.wss.emit('clients-updated', this.messagesWsService.getConnectedClients() );
   }
 
   @SubscribeMessage('message-from-client')
-  onMessageFromClient( client: Socket, payload: any ) {
-  
-    //! Emite únicamente al cliente.
-    // client.emit('message-from-server', {
-    //   fullName: 'Soy Yo!',
-    //   message: payload.message || 'no-message!!'
-    // });
-
-    //! Emitir a todos MENOS, al cliente inicial
-    // client.broadcast.emit('message-from-server', {
-    //   fullName: 'Soy Yo!',
-    //   message: payload.message || 'no-message!!'
-    // });
+  async onMessageFromClient( client: Socket, payload: any ) {
+    let chat = await this.messagesWsService.registerMesage(payload)
 
     this.wss.emit('message-from-server', {
-      fullName: this.messagesWsService.getUserFullName(client.id),
-      message: payload.message || 'no-message!!'
+      fullName: this.messagesWsService.getUserFullName(client.id).firstName,
+      rol: this.messagesWsService.getUserFullName(client.id).rol.rol,
+      message: payload.message || 'no-message!!',
+      id_conversacion: chat.conversation.id_conversacion
     });
-
   }
 
 
